@@ -77,7 +77,12 @@ module.exports = {
     const row = new ActionRowBuilder().addComponents(
       new ButtonBuilder().setCustomId('fp_apply').setLabel('Apply for Fastpass').setStyle(ButtonStyle.Primary)
     );
-    await interaction.channel.send({ embeds: [embed], components: [row] });
+   await ch.send({
+  content: `<@&${CONFIG.mgmtPingRoleId}> New staff fastpass application from ${i.user}`,
+  embeds: [embed],
+  components: [row],
+  allowedMentions: { roles: [CONFIG.mgmtPingRoleId] },
+});
     return interaction.reply({ content: 'Panel posted.', ephemeral: true });
   },
 
