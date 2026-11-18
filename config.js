@@ -13,6 +13,9 @@ module.exports = {
   STAFF_ROLE_ID: '1546954610315370626',      // can see/claim/unclaim/close tickets
   DEV_ROLE_ID: '1546972551446536233',        // /say + posting panels
 
+  // How many tickets one person can have open at once
+  MAX_TICKETS_PER_USER: 10,
+
   // Ticket categories (each ticket type opens under its own Discord category)
   TICKET_PARENTS: {
     staff_report: '1523012194441232508',
