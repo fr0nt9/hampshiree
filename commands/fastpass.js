@@ -103,4 +103,68 @@ module.exports = {
     if (sub === 'revoke') {
       const user = interaction.options.getUser('user');
       const reason = interaction.options.getString('reason') || 'No reason provided';
-      const member = await guild.members.fetch(user.id).catch(() =>
+      const member = await guild.members.fetch(user.id).catch(() => null);
+      if (!db[user.id] && !(member && member.roles.cache.has(CONFIG.fastpassRoleId))) {
+        return interaction.reply({ content: 'That user does not have a fastpass.', ephemeral: true });
+      }
+      if (member) await member.roles.remove(CONFIG.fastpassRoleId, `Fastpass revoked by ${interaction.user.tag}`).catch(() => {});
+      delete db[user.id];
+      save(db);
+
+      const embed = baseEmbed('Staff Fastpass Revoked')
+        .addFields(
+          { name: 'Staff Member', value: `${user}`, inline: true },
+          { name: 'Revoked By', value: `${interaction.user}`, inline: true },
+          { name: 'Reason', value: reason },
+        );
+      await interaction.reply({ embeds: [embed] });
+      return log(guild, embed);
+    }
+
+    if (sub === 'check') {
+      const user = interaction.options.getUser('user');
+      const entry = db[user.id];
+      if (!entry) return interaction.reply({ content: `${user} has no active fastpass.`, ephemeral: true });
+      const embed = baseEmbed('Staff Fastpass')
+        .addFields(
+          { name: 'Staff Member', value: `${user}`, inline: true },
+          { name: 'Granted By', value: `<@${entry.grantedBy}>`, inline: true },
+          { name: 'Granted', value: `<t:${Math.floor(entry.grantedAt / 1000)}:R>`, inline: true },
+          { name: 'Expires', value: entry.expiresAt ? `<t:${Math.floor(entry.expiresAt / 1000)}:R>` : 'Never', inline: true },
+          { name: 'Reason', value: entry.reason },
+        );
+      return interaction.reply({ embeds: [embed], ephemeral: true });
+    }
+
+    if (sub === 'list') {
+      const entries = Object.entries(db);
+      if (!entries.length) return interaction.reply({ content: 'There are no active fastpasses.', ephemeral: true });
+      const lines = entries.map(([id, e]) =>
+        `<@${id}>: ${e.expiresAt ? `expires <t:${Math.floor(e.expiresAt / 1000)}:R>` : 'no expiry'}`);
+      const embed = baseEmbed('Active Staff Fastpasses').setDescription(lines.join('\n').slice(0, 4000));
+      return interaction.reply({ embeds: [embed], ephemeral: true });
+    }
+  },
+
+  // Call once after the bot is ready: handles automatic expiry.
+  init(client) {
+    const sweep = async () => {
+      const db = load();
+      const now = Date.now();
+      let changed = false;
+      for (const [id, entry] of Object.entries(db)) {
+        if (!entry.expiresAt || entry.expiresAt > now) continue;
+        for (const guild of client.guilds.cache.values()) {
+          const member = await guild.members.fetch(id).catch(() => null);
+          if (member) await member.roles.remove(CONFIG.fastpassRoleId, 'Fastpass expired').catch(() => {});
+          await log(guild, baseEmbed('Staff Fastpass Expired').addFields({ name: 'Staff Member', value: `<@${id}>` }));
+        }
+        delete db[id];
+        changed = true;
+      }
+      if (changed) save(db);
+    };
+    sweep();
+    setInterval(sweep, 10 * 60 * 1000);
+  },
+};
