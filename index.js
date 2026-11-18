@@ -11,6 +11,7 @@ if (!cfg.TOKEN || !cfg.CLIENT_ID) {
 }
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+require('./commands/fastpass').init(client);
 client.commands = new Collection();
 
 const commandFiles = fs.readdirSync(path.join(__dirname, 'commands')).filter((f) => f.endsWith('.js'));
