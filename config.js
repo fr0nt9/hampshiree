@@ -13,6 +13,14 @@ module.exports = {
   STAFF_ROLE_ID: '1546954610315370626',      // can see/claim/unclaim/close tickets
   DEV_ROLE_ID: '1546972551446536233',        // /say + posting panels
 
+  // Ticket categories (each ticket type opens under its own Discord category)
+  TICKET_PARENTS: {
+    staff_report: '1523012194441232508',
+    management: '1523012194441232507',   // high rank tickets
+    other: '1523012194441232509',
+    general_support: '1523012193883525218',
+  },
+
   // Channels
   TRANSCRIPT_CHANNEL_ID: '1523012192637685815',
   REGULATIONS_CHANNEL_ID: '1523440098761506887',
