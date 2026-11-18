@@ -110,7 +110,7 @@ async function createTicket(interaction) {
     channel = await guild.channels.create({
       name,
       type: ChannelType.GuildText,
-      parent: cfg.TICKET_CATEGORY_ID || undefined,
+      parent: cfg.TICKET_PARENTS[key] || cfg.TICKET_CATEGORY_ID || undefined,
       topic: makeTopic(state),
       permissionOverwrites: [
         { id: guild.roles.everyone.id, deny: [PermissionFlagsBits.ViewChannel] },
@@ -237,3 +237,4 @@ async function closeTicket(interaction, t) {
 }
 
 module.exports = { buildSupportPanel, createTicket, handleButton };
+
