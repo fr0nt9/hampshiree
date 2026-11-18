@@ -60,7 +60,7 @@ module.exports = {
     .setDescription('Post the staff fastpass application panel'),
 
   async execute(interaction) {
-    if (!interaction.member.roles.cache.has(CONFIG.reviewerRoleId)) {
+   if (!interaction.member.roles.cache.some(r => CONFIG.reviewerRoleIds.includes(r.id))) {
       return interaction.reply({ content: 'You do not have permission to post the panel.', ephemeral: true });
     }
     const embed = new EmbedBuilder()
@@ -137,7 +137,7 @@ module.exports = {
 
         // Accept / Deny
         if (i.isButton() && /^fp_(accept|deny)_/.test(i.customId)) {
-          if (!i.member.roles.cache.has(CONFIG.reviewerRoleId)) {
+          if (!i.member.roles.cache.some(r => CONFIG.reviewerRoleIds.includes(r.id))) {
             return i.reply({ content: 'You cannot review applications.', ephemeral: true });
           }
           const [, action, userId] = i.customId.split('_');
