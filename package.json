@@ -1,7 +1,7 @@
 {
-  "name": "hrbr-bot",
+  "name": "hcrp-bot",
   "version": "1.0.0",
-  "description": "High Rock Border Roleplay utility bot (tickets, regulations, dashboard, verify, say)",
+  "description": "Hampshire County Roleplay utility bot (tickets, regulations, dashboard, verify, say)",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"

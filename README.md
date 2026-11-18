@@ -1,4 +1,4 @@
-# High Rock Border Roleplay Bot
+# Hampshire County Roleplay Bot
 
 Slash commands (all panel commands are restricted to the Discord Dev role or Administrators):
 
