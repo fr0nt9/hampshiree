@@ -10,7 +10,8 @@ if (!cfg.TOKEN || !cfg.CLIENT_ID) {
   process.exit(1);
 }
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+const client = new Client({ intents: [ GatewayIntentBits.GuildModeration,GatewayIntentBits.Guilds] });
+require('./logger')(client);
 require('./commands/fastpass').init(client);
 client.commands = new Collection();
 
