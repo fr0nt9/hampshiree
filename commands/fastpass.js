@@ -4,8 +4,9 @@ const {
 } = require('discord.js');
 
 const CONFIG = {
-  staffRoleId: process.env.STAFF_ROLE_ID || 'PUT_STAFF_ROLE_ID_HERE',
-  reviewChannelId: process.env.FASTPASS_REVIEW_CHANNEL_ID || 'PUT_REVIEW_CHANNEL_ID_HERE',
+  staffRoleId: process.env.STAFF_ROLE_ID || '1546923626756968468',
+  reviewChannelId: process.env.FASTPASS_REVIEW_CHANNEL_ID || '1546923836988203149',
+  mgmtPingRoleId: '1546923599942778890',
   reviewerRoleIds: [
     '1546972075489624084', // directive team
     '1546923599942778890', // management team
