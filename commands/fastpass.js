@@ -1,3 +1,8 @@
+const {
+  SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle,
+  ModalBuilder, TextInputBuilder, TextInputStyle,
+} = require('discord.js');
+
 const CONFIG = {
   staffRoleId: process.env.STAFF_ROLE_ID || 'PUT_STAFF_ROLE_ID_HERE',
   reviewChannelId: process.env.FASTPASS_REVIEW_CHANNEL_ID || 'PUT_REVIEW_CHANNEL_ID_HERE',
