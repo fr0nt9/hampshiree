@@ -92,12 +92,14 @@ async function createTicket(interaction) {
   const guild = interaction.guild;
   const channels = await guild.channels.fetch();
 
-  const existing = channels.find((c) => c && c.topic && c.topic.startsWith(`ticket|${interaction.user.id}|`));
-  if (existing) {
-    return interaction.editReply(`❌ You already have an open ticket: ${existing}`);
+  const open = channels.filter((c) => c && c.topic && c.topic.startsWith(`ticket|${interaction.user.id}|`));
+  if (open.size >= cfg.MAX_TICKETS_PER_USER) {
+    return interaction.editReply(`❌ You already have ${open.size} open tickets (the limit is ${cfg.MAX_TICKETS_PER_USER}). Please close one first.`);
   }
 
-  const name = `${cat.prefix}-${interaction.user.username}`.toLowerCase().replace(/[^a-z0-9-]/g, '').slice(0, 90);
+  const suffix = Math.floor(1000 + Math.random() * 9000);
+  const base = `${cat.prefix}-${interaction.user.username}`.toLowerCase().replace(/[^a-z0-9-]/g, '').slice(0, 70);
+  const name = `${base}-${suffix}`;
   const state = { openerId: interaction.user.id, category: key, claimedBy: null };
 
   const allow = [
@@ -196,6 +198,7 @@ async function closeTicket(interaction, t) {
   try {
     transcript = await createTranscript(channel, {
       limit: -1,
+      filter: (message) => !message.author.bot, // only real people, no bot panels or announcements
       returnType: 'attachment',
       filename: `transcript-${channel.name}.html`,
       saveImages: false,
@@ -227,14 +230,7 @@ async function closeTicket(interaction, t) {
     return channel.send('❌ I could not send the transcript to the logs channel, so I did not delete this ticket. Check my permissions there.');
   }
 
-  // Best-effort DM copy to the opener
-  try {
-    const opener = await interaction.client.users.fetch(t.openerId);
-    await opener.send({ content: 'Your Hampshire County Roleplay ticket was closed. Here is your transcript.', files: [transcript] });
-  } catch { /* DMs closed */ }
-
   setTimeout(() => channel.delete('Ticket closed').catch(console.error), 5000);
 }
 
 module.exports = { buildSupportPanel, createTicket, handleButton };
-
