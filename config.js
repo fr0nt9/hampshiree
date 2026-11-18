@@ -6,8 +6,8 @@ module.exports = {
   GUILD_ID: process.env.GUILD_ID || null,
   TICKET_CATEGORY_ID: process.env.TICKET_CATEGORY_ID || null,
 
-  SERVER_NAME: 'PRE RELEASE | High Rock Border Roleplay',
-  COLOR: 0x2f7a5a,
+  SERVER_NAME: 'PRE RELEASE | Hampshire County Roleplay',
+  COLOR: 0x2b4c8c,
 
   // Roles
   STAFF_ROLE_ID: '1546954610315370626',      // can see/claim/unclaim/close tickets
@@ -20,6 +20,6 @@ module.exports = {
   SESSIONS_CHANNEL_ID: '1546923727134924862',
 
   // Links
-  WHITELISTED_GROUP_URL: 'https://www.roblox.com/communities/370893888/High-Rock-Border-Roleplay-WL#!/about',
+  WHITELISTED_GROUP_URL: 'https://www.roblox.com/communities/473442062/Hampshire-County-Roleplay-Whitelisted#!/about',
   BLOXLINK_URL: 'https://blox.link/verify',
 };
