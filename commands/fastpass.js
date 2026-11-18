@@ -80,7 +80,7 @@ module.exports = {
     return interaction.reply({ content: 'Panel posted.', ephemeral: true });
   },
 
-  init(client) {
+  init(client) { console.log('fastpass listener ready');
     client.on('interactionCreate', async (i) => {
       try {
         // Apply button -> start part 1
