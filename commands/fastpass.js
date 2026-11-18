@@ -1,12 +1,13 @@
-const {
-  SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle,
-  ModalBuilder, TextInputBuilder, TextInputStyle,
-} = require('discord.js');
-
 const CONFIG = {
   staffRoleId: process.env.STAFF_ROLE_ID || 'PUT_STAFF_ROLE_ID_HERE',
   reviewChannelId: process.env.FASTPASS_REVIEW_CHANNEL_ID || 'PUT_REVIEW_CHANNEL_ID_HERE',
-  reviewerRoleId: process.env.FASTPASS_REVIEWER_ROLE_ID || '1546954610315370626',
+  reviewerRoleIds: [
+    '1546972075489624084', // directive team
+    '1546923599942778890', // management team
+    '1546923605122621523', // lead internal affairs
+    '1548301273122472070', // high rank
+    '1546923612811038742', // admin team
+  ],
   color: 0x2b6cb0,
 };
 
